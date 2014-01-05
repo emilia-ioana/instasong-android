@@ -28,13 +28,13 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 	private TextView userNameView;
 	private TextView userInfoTextView;
 	String a = null;
-	
-	
+
+
 	@Override
-	public View onCreateView(LayoutInflater inflater, 
+	public View onCreateView(LayoutInflater inflater,
 	        ViewGroup container, Bundle savedInstanceState) {
 	    super.onCreateView(inflater, container, savedInstanceState);
-	   
+
 	 View view = inflater.inflate(R.layout.selection, container, false);
 
 	 // Find the user's profile picture custom view
@@ -43,26 +43,26 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 
 	 // Find the user's name view
 	 userNameView = (TextView) view.findViewById(R.id.selection_user_name);
-	 
+
 	 // Check for an open session
 	    Session session = Session.getActiveSession();
 	    if (session != null && session.isOpened()) {
 	        // Get the user's data
 	        makeMeRequest(session);
 	    }
-	    
+
 	    userInfoTextView = (TextView) view.findViewById(R.id.userInfoTextView);
-	    
+
 	    Button b = (Button) view.findViewById(R.id.button);
         b.setOnClickListener(this);
-	    
+
 	    return view;
 	}
-	
+
 	private void makeMeRequest(final Session session) {
-	    // Make an API call to get user data and define a 
+	    // Make an API call to get user data and define a
 	    // new callback to handle the response.
-	    Request request = Request.newMeRequest(session, 
+	    Request request = Request.newMeRequest(session,
 	            new Request.GraphUserCallback() {
 	        @Override
 	        public void onCompleted(GraphUser user, Response response) {
@@ -82,8 +82,8 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 	        }
 	    });
 	    request.executeAsync();
-	} 
-	
+	}
+
 	@SuppressWarnings("deprecation")
 	private void onSessionStateChange(final Session session, final SessionState state, Exception exception) {
 		if (state.isOpened()) {
@@ -107,15 +107,15 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}}
-		            
+
 		        }
 		    });
-		
+
 	    } else if (state.isClosed()) {
 	        userInfoTextView.setVisibility(View.INVISIBLE);
 	    }
 	}
-	
+
 	private UiLifecycleHelper uiHelper;
 	private Session.StatusCallback callback = new Session.StatusCallback() {
 	    @Override
@@ -123,17 +123,17 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 	        onSessionStateChange(session, state, exception);
 	    }
 	};
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    uiHelper = new UiLifecycleHelper(getActivity(), callback);
 	    uiHelper.onCreate(savedInstanceState);
-	 
+
 	}
-	
+
 	private static final int REAUTH_ACTIVITY_CODE = 100;
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    super.onActivityResult(requestCode, resultCode, data);
@@ -141,7 +141,7 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 	        uiHelper.onActivityResult(requestCode, resultCode, data);
 	    }
 	}
-	
+
 	@Override
 	public void onResume() {
 	    super.onResume();
@@ -165,17 +165,17 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 	    super.onDestroy();
 	    uiHelper.onDestroy();
 	}
-	
-	
-	
+
+
+
 	private String getInfo(final Session session) throws JSONException {
-		
+
 		String token=session.getAccessToken();
-		
-	
+
+
 		// url to make request
 		String url = String.format("http://infinite-falls-7833.herokuapp.com/get_suggestion?access_token=%s", token);
-		 
+
 		// JSON Node names
 	    final String TYPE = "type";
 		final String MESSAGE = "message";
@@ -183,21 +183,21 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 		final String TITLE = "title";
 		final String PERMALINK_URL = "permalink_url";
 		final String SEARCHED_FOR = "searched_for";
-		
-		
+
+
 		// Creating JSON Parser instance
 		JSONParser jParser = new JSONParser();
-		 
+
 		// getting JSON string from URL
 		JSONObject json = jParser.getJSONFromUrl(url);
-		
+
 		String type, returns = null;
 		JSONObject data = new JSONObject();
-		
+
 		try {
-		 
+
 			type = json.getString("type");
-			
+
 			//if (type == "success") {
 				try {
 					data = json.getJSONObject("data");
@@ -205,24 +205,24 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-				
-				
+
+
 			//} else {
 			//	returns = json.getString("message");
 			//}
-		       
-		    
+
+
 		} catch (JSONException e) {
 		    e.printStackTrace();
 		}
 
-		
-		
-		
+
+
+
 		return returns;
 	}
-	
-	
+
+
 	/** Called when the user clicks the Send button */
 	 @Override
 	    public void onClick(View v) {
@@ -239,7 +239,7 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 				}
 	        	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(a));
 				startActivity(browserIntent);
-				
+
 	            break;
 	        }
 }
