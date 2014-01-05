@@ -174,7 +174,7 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 
 
 		// url to make request
-		String rawUrl = "http://instasong-python.herokuapp.com/api/users/suggest?api_secret=i9UDy2WpmN90PoW28Eu1a4Rf&access_token=%s";
+		String rawUrl = "http://instasong-python.herokuapp.com/api/users/suggest?api_secret=i9UDy2WpmN90PoW28Eu1a4Rf&access_token=%s&tz=2";
 		String url = String.format(rawUrl, token);
 
 		// JSON Node names
