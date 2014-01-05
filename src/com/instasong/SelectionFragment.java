@@ -178,12 +178,13 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 		String url = String.format(rawUrl, token);
 
 		// JSON Node names
-	    final String TYPE = "type";
-		final String MESSAGE = "message";
-		final String DATA = "data";
-		final String TITLE = "title";
-		final String PERMALINK_URL = "permalink_url";
-		final String SEARCHED_FOR = "searched_for";
+	    final String TYPE = "type"; // Response type; can be 'success' or 'error'
+		final String MESSAGE = "message"; // If type='error', this contains info about the error that occured
+		final String DATA = "data"; // If type='success', this is a dict containing the response data
+		final String NAME = "name"; // Key in 'data'; holds artist name
+		final String TITLE = "title"; // Key in 'data': holds song title
+		final String SOUNDCLOUD_URL = "soundcloud_url"; // Key in 'data': holds song's soundcloud url
+		final String SEARCHED_FOR = "searched_for"; // Key in 'data': holds the search term used to search soundcloud
 
 
 		// Creating JSON Parser instance
