@@ -1,14 +1,12 @@
 package com.instasong;
 
-import java.io.IOException;
 import java.util.TimeZone;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -101,27 +99,16 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 		        public void onCompleted(GraphUser user, Response response) {
 		            if (user != null) {
 		                // Display the info
-		                //  userInfoTextView.setText(session.getAccessToken());
+		                  userInfoTextView.setText(session.getAccessToken());
+		          			
+
 		                  try {
 		                	  a= getInfo(session);
-		                	  playMp3(a);
-							  //userInfoTextView.setText(a);
-							//Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(a));
-							//startActivity(browserIntent);
-		                	 /* try {
-		  						String urlplay = getInfo(session); // your URL here
-		  						MediaPlayer mediaPlayer = new MediaPlayer();
-		  						mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-		  						mediaPlayer.setDataSource(urlplay);
-		  						mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
-		  						mediaPlayer.start();
-		  					}catch (IOException e)  {
-		  						// TODO Auto-generated catch block
-		  						e.printStackTrace();
-		  					}*/
+		                	 
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
+						
 						}
 		            	
 						}
@@ -192,7 +179,7 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 		TimeZone tz = TimeZone.getDefault();
 
 		// url to make request
-		String rawUrl = "http://95.76.94.168:5000/api/users/suggest?api_secret=i9UDy2WpmN90PoW28Eu1a4Rf&access_token=%s&tz=%s";
+		String rawUrl = "http://instasong-python.herokuapp.com/api/users/suggest?api_secret=i9UDy2WpmN90PoW28Eu1a4Rf&access_token=%s&tz=%s";
 		String url = String.format(rawUrl, token, tz.getDisplayName(false, TimeZone.SHORT));
 
 		// JSON Node names
@@ -243,58 +230,28 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 
 	/** Called when the user clicks the Send button */
 	 @Override
-	    public void onClick(View v) {
-	        switch (v.getId()) {
-	        case R.id.button:
+     public void onClick(View v) {
+         switch (v.getId()) {
+         case R.id.button:
 
-	        	Session session = Session.getActiveSession();
-	    	    if (session != null && session.isOpened())
-				try {
-					a= getInfo(session);
-					/*try {
-						String urlplay = getInfo(session); // your URL here
-						MediaPlayer mediaPlayer = new MediaPlayer();
-						mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-						mediaPlayer.setDataSource(urlplay);
-						mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
-						mediaPlayer.start();
-					}catch (IOException e)  {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}*/
-					
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	        	//Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(a));
-				//startActivity(browserIntent);
-	    	    playMp3(a);
-	            break;
-	        }
+                 Session session = Session.getActiveSession();
+                 if (session != null && session.isOpened())
+                         try {
+                        	 
+                        	 // playMp3(a);
+ 							//userInfoTextView.setText(a);
+ 							//Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(a));
+ 							//startActivity(browserIntent);
+                                 a= getInfo(session);
+                         } catch (JSONException e) {
+                                 // TODO Auto-generated catch block
+                                 e.printStackTrace();
+                         }
+                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(a));
+                         startActivity(browserIntent);
+                         
+             break;
+         }
 }
-	 
-	 public void playMp3(String _link) {
-	
-		 Session session = Session.getActiveSession();
- 	     if (session != null && session.isOpened())
- 	    	{
- 	    	try{
- 	    		try{
- 	    			String url = getInfo(session); // your URL here
- 	    		    MediaPlayer mediaPlayer = new MediaPlayer();
-	  			    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-				    mediaPlayer.setDataSource(url);
-				    mediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
-				    mediaPlayer.start();
-			 }catch (IOException e)  {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			 }catch(JSONException e) {
-				 e.printStackTrace();
-			  }
- 	    	}
- 	    	finally{ }
-	 }
-	 }
+
 }
